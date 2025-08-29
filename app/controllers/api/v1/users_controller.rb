@@ -2,23 +2,24 @@ module Api
     module V1
     class UsersController < ApplicationController
     def me
-    render json: UserSerializer.new(current_user)
+        render json: current_user, serializer: UserSerializer
     end
     
     
     def show
     user = User.find_by!(username: params[:username])
-    render json: UserSerializer.new(user, scope: current_user)
+    render json: user, serializer: UserSerializer
     end
     
     
     def update
-    if current_user.update(user_update_params)
-    render json: UserSerializer.new(current_user)
-    else
-    render json: { errors: current_user.errors.full_messages }, status: :unprocessable_entity
-    end
-    end
+        if current_user.update(user_update_params)
+          render json: current_user, serializer: UserSerializer
+        else
+          render json: { errors: current_user.errors.full_messages }, status: :unprocessable_entity
+        end
+      end
+      
     
     
     def search

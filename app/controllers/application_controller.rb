@@ -1,4 +1,6 @@
 class ApplicationController < ActionController::API
+    before_action :set_default_url_options
+    
     include ActionController::Cookies
     
     
@@ -20,6 +22,10 @@ class ApplicationController < ActionController::API
     @current_user = User.find_by(id: decoded[:user_id]) if decoded
     render json: { error: 'Unauthorized' }, status: :unauthorized unless @current_user
     end
+
+    def set_default_url_options
+        Rails.application.routes.default_url_options[:host] = request.base_url
+      end
     
     
     def current_user

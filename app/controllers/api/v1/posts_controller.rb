@@ -11,7 +11,7 @@ module Api
     post = current_user.posts.build(post_params)
     if post.save
     attach_images(post)
-    render json: PostSerializer.new(post, scope: current_user), status: :created
+    render json: post, serializer: PostSerializer, status: :created
     else
     render json: { errors: post.errors.full_messages }, status: :unprocessable_entity
     end
@@ -20,7 +20,7 @@ module Api
     
     def show
     post = Post.find(params[:id])
-    render json: PostSerializer.new(post, scope: current_user)
+    render json: post,  serializer: PostSerializer
     end
     
     

@@ -13,7 +13,7 @@ module Api
     comment = post.comments.build(comment_params.merge(user: current_user))
     if comment.save
     Notification.create!(user: post.user, actor: current_user, action: 'commented', notifiable: comment) unless post.user == current_user
-    render json: CommentSerializer.new(comment), status: :created
+    render json: comment, serializer: CommentSerializer, status: :created
     else
     render json: { errors: comment.errors.full_messages }, status: :unprocessable_entity
     end
